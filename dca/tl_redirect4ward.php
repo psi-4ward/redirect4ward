@@ -96,9 +96,9 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('jumpToType'),
-		'default'                     => 'jumpToType;url,host,jumpTo;type,published',
-		'Intern'           			  => 'jumpToType;url,host,jumpTo;type,published',
-		'Extern'           			  => 'jumpToType;url,host,externalUrl;type,published'
+		'default'                     => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
+		'Intern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
+		'Extern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,published'
 	),
 
 	// Fields
@@ -120,7 +120,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'inputType'               => 'select',
 			'default'				  => '-',
 			'options_callback'		  => array('tl_redirect4ward','getHosts'),
-			'eval'                    => array('maxlength'=>255,'tl_class'=>'long')
+			'eval'                    => array('maxlength'=>255,'tl_class'=>'w50')
 		),
 		'type' => array
 		(
@@ -140,6 +140,14 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'default'				  => '1',
 			'inputType'               => 'checkbox',
 			'eval'                    => array('tl_class'=>'w50')
+		),
+		'rgxp' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'],
+			'exclude'                 => true,
+			'default'				  => '0',
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w50 m12')
 		),
 		'jumpTo' => array
 		(

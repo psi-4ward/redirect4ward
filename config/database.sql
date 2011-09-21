@@ -20,6 +20,7 @@ CREATE TABLE `tl_redirect4ward` (
   `jumpToType` varchar(10) NOT NULL default '',
   `jumpTo` int(10) unsigned NOT NULL default '0',
   `externalUrl` varchar(255) NOT NULL default '',
+  `rgxp` char(1) NOT NULL default '',
   `published` char(1) NOT NULL default '',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

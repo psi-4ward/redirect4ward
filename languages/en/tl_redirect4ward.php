@@ -46,6 +46,9 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['type'][1]		= "Choose between an permane
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][0]	= "Active";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][1]	= "Here you can disable the redirection.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][0]	= "regular expression";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][1]	= "Use URL as REGEXP. You can use parameters like $1 in the target url.";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'every host';
 $GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'] = 'Internal redirection';
 $GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern'] = 'External redirection';
@@ -58,6 +61,8 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['new']    = array('New redirection', 'Creates a new redirection.');
-
+$GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Redirect-type';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Target';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Config';
 
 ?>

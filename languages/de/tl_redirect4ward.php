@@ -46,6 +46,9 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['type'][1]		= "Legt fest, ob die Umleitu
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][0]	= "Aktiviert";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][1]	= "Hier kann die Weiterleitung deaktiviert werden.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][0]	= "Regulärer Ausdruck";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][1]	= "Interpretiert die URL als REGEXP. Parameter wie $1 können in der Ziel-URL verwendet werden.";
+
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'jeder Host';
 $GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'] = 'Interne Weiterleitung';
@@ -59,6 +62,10 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['new']    = array('Neue Weiterleitung', 'Eine neue Weiterleitung anlegen');
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Weiterleitungs-Typ';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
 
 
 ?>

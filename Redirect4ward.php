@@ -43,9 +43,17 @@ class Redirect4ward extends Controller
 		// Kill trialing /
 		if(substr($url,-1) == '/') $url = substr($url,0,-1);
 		
-		$objTarget = $this->Database->prepare('SELECT jumpTo,type,jumpToType,externalUrl FROM tl_redirect4ward WHERE published=? AND url LIKE ? AND (host=? OR CONCAT("www.",host)=? OR host="")')
-						->limit(1)->execute('1',$url,$this->Environment->host);
-
+		$objTarget = $this->Database->prepare('	SELECT jumpTo,type,jumpToType,externalUrl,url,rgxp 
+												FROM tl_redirect4ward 
+												WHERE 	published=? 
+														AND (
+																	(rgxp="" AND url=?)
+															 	 OR (rgxp="1" AND ? REGEXP url)
+															 )
+														AND (host=? OR CONCAT("www.",host)=? OR host="")'
+											)
+						->limit(1)->execute('1',$url,$url,$this->Environment->host,$this->Environment->host);
+						
 		if($objTarget->numRows > 0)
 		{
 			if($objTarget->jumpToType == 'Intern')
@@ -60,9 +68,22 @@ class Redirect4ward extends Controller
 			}
 			else if($objTarget->jumpToType == 'Extern')
 			{
+				$targetURL = $objTarget->externalUrl;
+				// replace regex-params
+				if($objTarget->rgxp == '1' && preg_match("~{$objTarget->url}~i", $url,$erg))
+				{
+					
+					foreach($erg as $i=>$param)
+					{
+						var_dump($i,$param,$targetURL);
+						$targetURL = str_replace('$'.$i, $param, $targetURL);
+					}
+				}
+				die($targetURL);
+				
 				// Redirect to external page
 				$type = ($objTarget->type=='301')?'301':'303'; // TL knows only "303: see other", no "307: temporary"
-				$this->redirect($objTarget->externalUrl,$type);
+				$this->redirect($targetURL,$type);
 			}
 		}
 		
