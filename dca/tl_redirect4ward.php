@@ -177,6 +177,7 @@ class tl_redirect4ward extends System
 	
 	public function __construct()
 	{
+		parent::__construct();
 		$this->import('Database');
 	}
 	

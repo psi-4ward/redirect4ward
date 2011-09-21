@@ -43,7 +43,7 @@ class Redirect4ward extends Controller
 		// Kill trialing /
 		if(substr($url,-1) == '/') $url = substr($url,0,-1);
 		
-		$objTarget = $this->Database->prepare('SELECT jumpTo,type,jumpToType,externalUrl FROM tl_redirect4ward WHERE published=? AND ur LIKE ? AND (host=? OR CONCAT("www.",host)=? OR host="")')
+		$objTarget = $this->Database->prepare('SELECT jumpTo,type,jumpToType,externalUrl FROM tl_redirect4ward WHERE published=? AND url LIKE ? AND (host=? OR CONCAT("www.",host)=? OR host="")')
 						->limit(1)->execute('1',$url,$this->Environment->host);
 
 		if($objTarget->numRows > 0)
