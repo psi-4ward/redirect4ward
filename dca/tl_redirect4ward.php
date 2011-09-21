@@ -191,8 +191,9 @@ class tl_redirect4ward extends System
 	
 	public function label($row, $label, DataContainer $dc=null)
 	{
-		if(strlen($row['host'])) $host = "; Host: {$row['host']}";
-		return sprintf('%s <span style="color:#b3b3b3; padding-left:3px;">[%s%s]</span>',$row['url'],$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']],$host);
+		$host = (strlen($row['host'])) ? "; Host: {$row['host']}" : '';
+		$rgxp = (strlen($row['rgxp'])) ? '; REGEX' : '';
+		return sprintf('%s <span style="color:#b3b3b3; padding-left:3px;">[%s%s%s]</span>',$row['url'],$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']],$host,$rgxp);
 	}
 	
 	public function getHosts()
