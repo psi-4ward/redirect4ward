@@ -43,6 +43,9 @@ class Redirect4ward extends Controller
 		// Kill trialing /
 		if(substr($url,-1) == '/') $url = substr($url,0,-1);
 		
+		// decode url
+		$url = urldecode($url);
+		
 		$objTarget = $this->Database->prepare('	SELECT jumpTo,type,jumpToType,externalUrl,url,rgxp 
 												FROM tl_redirect4ward 
 												WHERE 	published=? 
