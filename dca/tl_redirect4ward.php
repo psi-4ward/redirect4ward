@@ -175,7 +175,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255,'tl_class'=>'long','decodeEntities'=>true)
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'long','decodeEntities'=>true)
 		),		
 	)
 );
