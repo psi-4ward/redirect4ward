@@ -78,11 +78,9 @@ class Redirect4ward extends Controller
 					
 					foreach($erg as $i=>$param)
 					{
-						var_dump($i,$param,$targetURL);
 						$targetURL = str_replace('$'.$i, $param, $targetURL);
 					}
 				}
-				die($targetURL);
 				
 				// Redirect to external page
 				$type = ($objTarget->type=='301')?'301':'303'; // TL knows only "303: see other", no "307: temporary"
