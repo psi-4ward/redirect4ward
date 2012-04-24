@@ -16,7 +16,11 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
-		'enableVersioning'            => false
+		'enableVersioning'            => false,
+		'onsubmit_callback'           => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
+		)
 	),
 
 	// List
@@ -137,7 +141,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],
 			'exclude'                 => true,
 			'inputType'               => 'pageTree',
-			'eval'                    => array('fieldType'=>'radio','mandatory'=>true)
+			'eval'                    => array('fieldType'=>'radio','mandatory'=>true,'tl_class'=>'clr')
 		),
 		'jumpToType' => array
 		(
@@ -158,18 +162,32 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'long','decodeEntities'=>true)
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'clr long','decodeEntities'=>true)
 		),		
 	)
 );
 
 class tl_redirect4ward extends Controller
 {
+	/**
+	 * @var Htaccess
+	 */
+	protected $Htaccess;
 	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->import('Database');
+	}
+
+	public function updateHtaccess()
+	{
+		if (isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) &&
+			$GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess'] &&
+			in_array('htaccess', $this->Config->getActiveModules())) {
+			$this->import('Htaccess');
+			$this->Htaccess->update();
+		}
 	}
 	
 	public function label($row, $label, DataContainer $dc=null)

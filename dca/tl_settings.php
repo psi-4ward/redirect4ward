@@ -8,14 +8,21 @@
  * @filesource
  */
 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{redirect4ward_legend:hide},redirect4wardKillQueryStr';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{redirect4ward_legend:hide},redirect4wardKillQueryStr,redirect4ward_use_htaccess';
 
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['redirect4wardKillQueryStr'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['redirect4wardKillQueryStr'],
 	'inputType'               => 'checkbox',
-	'eval'                    => array('tl_class'=>'w50')
+	'eval'                    => array('tl_class'=>'m12 w50')
+);
+
+$GLOBALS['TL_DCA']['tl_settings']['fields']['redirect4ward_use_htaccess'] = array
+(
+	'label'                   => &$GLOBALS['TL_LANG']['tl_settings']['redirect4ward_use_htaccess'],
+	'inputType'               => 'checkbox',
+	'eval'                    => array('tl_class'=>'m12 w50')
 );
 
 ?>
