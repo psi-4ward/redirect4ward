@@ -8,7 +8,10 @@
  * @filesource
  */
 
-$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{redirect4ward_legend:hide},redirect4wardKillQueryStr,redirect4ward_use_htaccess';
+$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{redirect4ward_legend:hide},redirect4wardKillQueryStr';
+if (in_array('htaccess', $this->getActiveModules())) {
+	$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ',redirect4ward_use_htaccess';
+}
 
 
 $GLOBALS['TL_DCA']['tl_settings']['fields']['redirect4wardKillQueryStr'] = array
