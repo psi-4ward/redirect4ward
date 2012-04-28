@@ -10,5 +10,6 @@
 
 $GLOBALS['TL_LANG']['tl_settings']['redirect4ward_legend'] = 'Redirect4ward Einstellungen';
 $GLOBALS['TL_LANG']['tl_settings']['redirect4wardKillQueryStr'] = array('Query-String löschen','Löscht den Query-String aus der URL, also alles ab dem "?"');
+$GLOBALS['TL_LANG']['tl_settings']['redirect4ward_use_htaccess'] = array('htaccess Datei verwenden', 'Benötigt die Erweiterung <strong>htaccess</strong>!');
 
 ?>
