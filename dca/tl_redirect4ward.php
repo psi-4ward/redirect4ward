@@ -16,7 +16,11 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 	'config' => array
 	(
 		'dataContainer'               => 'Table',
-		'enableVersioning'            => false
+		'enableVersioning'            => false,
+		'onsubmit_callback'           => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
+		)
 	),
 
 	// List
@@ -137,7 +141,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],
 			'exclude'                 => true,
 			'inputType'               => 'pageTree',
-			'eval'                    => array('fieldType'=>'radio','mandatory'=>true)
+			'eval'                    => array('fieldType'=>'radio','mandatory'=>true,'tl_class'=>'clr')
 		),
 		'jumpToType' => array
 		(
@@ -158,25 +162,86 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'exclude'                 => true,
 			'search'                  => true,
 			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'long','decodeEntities'=>true)
+			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'clr long','decodeEntities'=>true)
 		),		
 	)
 );
 
-class tl_redirect4ward extends System
+class tl_redirect4ward extends Controller
 {
+	/**
+	 * @var Htaccess
+	 */
+	protected $Htaccess;
 	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->import('Database');
 	}
+
+	public function updateHtaccess()
+	{
+		if (isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) &&
+			$GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess'] &&
+			in_array('htaccess', $this->Config->getActiveModules())) {
+			$this->import('Htaccess');
+			$this->Htaccess->update();
+		}
+	}
 	
 	public function label($row, $label, DataContainer $dc=null)
 	{
-		$host = (strlen($row['host'])) ? "; Host: {$row['host']}" : '';
+		$strTestUrl = $this->Environment->ssl ? 'https://' : 'http://';
+		if ($row['host']) {
+			$strTestUrl .= $row['host'];
+		}
+		else {
+			$strTestUrl .= $this->Environment->host;
+		}
+		$strTestUrl .= '/' . $row['url'];
+
+		$strTestIcon = '<a href="' . $strTestUrl . '" target="_blank">' . $this->generateImage('system/themes/default/images/root.gif', '') . '</a>';
+
+		$strUrl = '';
+		if ($row['host']) {
+			$strUrl .= ($this->Environment->ssl ? 'https://' : 'http://') . $row['host'] . '/';
+		}
+		$strUrl .= $row['url'];
+
+		$strTarget = '';
+		switch ($row['jumpToType'])
+		{
+			// ...for internal redirects
+			case 'Intern':
+				$objPage = $this->Database
+					->prepare('SELECT * FROM tl_page WHERE id=?')
+					->execute($row['jumpTo']);
+				if (!$objPage->next()) {
+					$strTarget = 'unknown page!';
+				}
+				else {
+					$strTarget = $this->generateFrontendUrl($objPage->row());
+				}
+				break;
+
+			// ...for external redirects
+			case 'Extern':
+				$strTarget = $row['externalUrl'];
+				break;
+
+			// ...or continue with next
+			default:
+				$strTarget = 'invalid target!';
+		}
+
 		$rgxp = (strlen($row['rgxp'])) ? '; REGEX' : '';
-		return sprintf('%s <span style="color:#b3b3b3; padding-left:3px;">[%s%s%s]</span>',$row['url'],$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']],$host,$rgxp);
+		return sprintf('%s %s &rarr; %s <span style="color:#b3b3b3; padding-left:3px;">[%s%s]</span>',
+			$strTestIcon,
+			$strUrl,
+			$strTarget,
+			$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']],
+			$rgxp);
 	}
 	
 	public function getHosts()

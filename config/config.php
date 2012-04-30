@@ -15,6 +15,11 @@ array_insert($GLOBALS['BE_MOD']['system'],2,array(
 	)
 ));
 
-$GLOBALS['TL_PTY']['error_404'] = 'PageError404_Redirect4ward';
+if (!isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) || !$GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) {
+	$GLOBALS['TL_PTY']['error_404'] = 'PageError404_Redirect4ward';
+}
+else {
+	$GLOBALS['TL_HTACCESS_SUBMODULES']['rewrite']['redirect4ward'] = 'HtaccessRedirect4ward';
+}
 
 ?>
