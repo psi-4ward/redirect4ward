@@ -9,7 +9,9 @@
  */
 
 $GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ';{redirect4ward_legend:hide},redirect4wardKillQueryStr';
-if (in_array('htaccess', $this->getActiveModules())) {
+
+if (in_array('htaccess', $this->Config->getActiveModules()))
+{
 	$GLOBALS['TL_DCA']['tl_settings']['palettes']['default'] .= ',redirect4ward_use_htaccess';
 }
 
