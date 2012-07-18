@@ -11,6 +11,8 @@
 array_insert($GLOBALS['BE_MOD']['system'],2,array(
 	'redirect4ward' => array(
 		'tables'     => array('tl_redirect4ward'),
+		'importSitemap' => array('Redirect','importSitemap'),
+		'importLogs' => array('Redirect','importLogs'),
 		'icon' => 'system/modules/redirect4ward/html/icon.png' 
 	)
 ));

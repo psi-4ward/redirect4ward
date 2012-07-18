@@ -8,162 +8,186 @@
  * @filesource
  */
 
-
-$GLOBALS['TL_DCA']['tl_redirect4ward'] = array
-(
+$GLOBALS['TL_DCA']['tl_redirect4ward'] = array(
 
 	// Config
-	'config' => array
-	(
-		'dataContainer'               => 'Table',
-		'enableVersioning'            => false,
-		'onsubmit_callback'           => array
-		(
-			array('tl_redirect4ward', 'updateHtaccess')
-		)
+	'config' => array(
+		'dataContainer' => 'Table',
+		'enableVersioning' => false,
+		'onsubmit_callback' => array( array(
+				'tl_redirect4ward',
+				'updateHtaccess'
+			))
 	),
 
 	// List
-	'list' => array
-	(
-		'sorting' => array
-		(
-			'mode'                    => 1,
-			'fields'                  => array('url'),
-			'flag'                    => 1,
-			'panelLayout'             => 'filter;search,limit',
+	'list' => array(
+		'sorting' => array(
+			'mode' => 1,
+			'fields' => array('url'),
+			'flag' => 1,
+			'panelLayout' => 'filter;search,limit',
 		),
-		'label' => array
-		(
-			'fields'                  => array('url', 'type','host'),
-			'label_callback'		  => array('tl_redirect4ward','label'),
-			'format'                  => '%s'
+		'label' => array(
+			'fields' => array(
+				'url',
+				'type',
+				'host'
+			),
+			'label_callback' => array(
+				'tl_redirect4ward',
+				'label'
+			),
+			'format' => '%s'
 		),
-		'global_operations' => array
-		(
-			'all' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
-				'href'                => 'act=select',
-				'class'               => 'header_edit_all',
-				'attributes'          => 'onclick="Backend.getScrollOffset();"'
+		'global_operations' => array(
+			'importSitemap' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'],
+				'href' => 'key=importSitemap',
+				'attributes' => 'onclick="Backend.getScrollOffset();"'
+			),
+			'importLogs' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'],
+				'href' => 'key=importLogs',
+				'attributes' => 'onclick="Backend.getScrollOffset();"'
+			),
+			'all' => array(
+				'label' => &$GLOBALS['TL_LANG']['MSC']['all'],
+				'href' => 'act=select',
+				'class' => 'header_edit_all',
+				'attributes' => 'onclick="Backend.getScrollOffset();"'
 			)
 		),
-		'operations' => array
-		(
-			'edit' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_redirect4ward']['edit'],
-				'href'                => 'act=edit',
-				'icon'                => 'edit.gif'
+		'operations' => array(
+			'edit' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['edit'],
+				'href' => 'act=edit',
+				'icon' => 'edit.gif'
 			),
-			'copy' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_redirect4ward']['copy'],
-				'href'                => 'act=copy',
-				'icon'                => 'copy.gif'
+			'copy' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['copy'],
+				'href' => 'act=copy',
+				'icon' => 'copy.gif'
 			),
-			'delete' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_redirect4ward']['delete'],
-				'href'                => 'act=delete',
-				'icon'                => 'delete.gif',
-				'attributes'          => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
+			'delete' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['delete'],
+				'href' => 'act=delete',
+				'icon' => 'delete.gif',
+				'attributes' => 'onclick="if (!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\')) return false; Backend.getScrollOffset();"'
 			),
-			'show' => array
-			(
-				'label'               => &$GLOBALS['TL_LANG']['tl_redirect4ward']['show'],
-				'href'                => 'act=show',
-				'icon'                => 'show.gif'
+			'show' => array(
+				'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['show'],
+				'href' => 'act=show',
+				'icon' => 'show.gif'
 			)
 		)
 	),
 
 	// Palettes
-	'palettes' => array
-	(
-		'__selector__'                => array('jumpToType'),
-		'default'                     => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
-		'Intern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
-		'Extern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,published'
+	'palettes' => array(
+		'__selector__' => array('jumpToType'),
+		'default' => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
+		'Intern' => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
+		'Extern' => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,published'
 	),
 
 	// Fields
-	'fields' => array
-	(
-		'url' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['url'],
-			'exclude'                 => true,
-			'search'                  => true,
-			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'long','decodeEntities'=>true)
+	'fields' => array(
+		'url' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['url'],
+			'exclude' => true,
+			'search' => true,
+			'inputType' => 'text',
+			'eval' => array(
+				'mandatory' => true,
+				'maxlength' => 255,
+				'tl_class' => 'long',
+				'decodeEntities' => true
+			)
 		),
-		'host' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['host'],
-			'exclude'                 => true,
-			'filter'                  => true,
-			'inputType'               => 'select',
-			'default'				  => '-',
-			'options_callback'		  => array('tl_redirect4ward','getHosts'),
-			'eval'                    => array('maxlength'=>255,'tl_class'=>'w50')
+		'host' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['host'],
+			'exclude' => true,
+			'filter' => true,
+			'inputType' => 'select',
+			'default' => '-',
+			'options_callback' => array(
+				'tl_redirect4ward',
+				'getHosts'
+			),
+			'eval' => array(
+				'maxlength' => 255,
+				'tl_class' => 'w50'
+			)
 		),
-		'type' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['type'],
-			'default'                 => '301',
-			'exclude'                 => true,
-			'filter'                  => true,
-			'inputType'               => 'radio',
-			'reference'				  => &$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'],
-			'options'        		  => array('301', '307'),
-			'eval'                    => array('tl_class'=>'w50','mandatory'=>true)
+		'type' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['type'],
+			'default' => '301',
+			'exclude' => true,
+			'filter' => true,
+			'inputType' => 'radio',
+			'reference' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'],
+			'options' => array(
+				'301',
+				'307'
+			),
+			'eval' => array(
+				'tl_class' => 'w50',
+				'mandatory' => true
+			)
 		),
-		'published' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['published'],
-			'exclude'                 => true,
-			'default'				  => '1',
-			'inputType'               => 'checkbox',
-			'eval'                    => array('tl_class'=>'w50')
+		'published' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['published'],
+			'exclude' => true,
+			'filter' => true,
+			'default' => '1',
+			'inputType' => 'checkbox',
+			'eval' => array('tl_class' => 'w50')
 		),
-		'rgxp' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'],
-			'exclude'                 => true,
-			'default'				  => '0',
-			'inputType'               => 'checkbox',
-			'eval'                    => array('tl_class'=>'w50 m12')
+		'rgxp' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'],
+			'exclude' => true,
+			'default' => '0',
+			'inputType' => 'checkbox',
+			'eval' => array('tl_class' => 'w50 m12')
 		),
-		'jumpTo' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],
-			'exclude'                 => true,
-			'inputType'               => 'pageTree',
-			'eval'                    => array('fieldType'=>'radio','mandatory'=>true,'tl_class'=>'clr')
+		'jumpTo' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],
+			'exclude' => true,
+			'inputType' => 'pageTree',
+			'eval' => array(
+				'fieldType' => 'radio',
+				'mandatory' => true,
+				'tl_class' => 'clr'
+			)
 		),
-		'jumpToType' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpToType'],
-			'exclude'                 => true,
-			'inputType'               => 'radio',
-			'filter'                  => true,
-			'default'				  => 'Intern',
-			'options'				  => array(
-											'Intern' 	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'],
-											'Extern'	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']
-										),
-			'eval'                    => array('mandatory'=>true,'submitOnChange'=>true)
+		'jumpToType' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpToType'],
+			'exclude' => true,
+			'inputType' => 'radio',
+			'filter' => true,
+			'default' => 'Intern',
+			'options' => array(
+				'Intern' => &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'],
+				'Extern' => &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']
+			),
+			'eval' => array(
+				'mandatory' => true,
+				'submitOnChange' => true
+			)
 		),
-		'externalUrl' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'],
-			'exclude'                 => true,
-			'search'                  => true,
-			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'clr long','decodeEntities'=>true)
-		),		
+		'externalUrl' => array(
+			'label' => &$GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'],
+			'exclude' => true,
+			'search' => true,
+			'inputType' => 'text',
+			'eval' => array(
+				'mandatory' => true,
+				'maxlength' => 255,
+				'tl_class' => 'clr long',
+				'decodeEntities' => true
+			)
+		),
 	)
 );
 
@@ -173,7 +197,7 @@ class tl_redirect4ward extends Controller
 	 * @var Htaccess
 	 */
 	protected $Htaccess;
-	
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -182,21 +206,22 @@ class tl_redirect4ward extends Controller
 
 	public function updateHtaccess()
 	{
-		if (isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) &&
-			$GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess'] &&
-			in_array('htaccess', $this->Config->getActiveModules())) {
+		if(isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) && $GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess'] && in_array('htaccess', $this->Config->getActiveModules()))
+		{
 			$this->import('Htaccess');
 			$this->Htaccess->update();
 		}
 	}
-	
-	public function label($row, $label, DataContainer $dc=null)
+
+	public function label($row, $label, DataContainer $dc = null)
 	{
 		$strTestUrl = $this->Environment->ssl ? 'https://' : 'http://';
-		if ($row['host']) {
+		if($row['host'])
+		{
 			$strTestUrl .= $row['host'];
 		}
-		else {
+		else
+		{
 			$strTestUrl .= $this->Environment->host;
 		}
 		$strTestUrl .= '/' . $row['url'];
@@ -204,7 +229,8 @@ class tl_redirect4ward extends Controller
 		$strTestIcon = '<a href="' . $strTestUrl . '" target="_blank">' . $this->generateImage('system/themes/default/images/root.gif', '') . '</a>';
 
 		$strUrl = '';
-		if ($row['host']) {
+		if($row['host'])
+		{
 			$strUrl .= ($this->Environment->ssl ? 'https://' : 'http://') . $row['host'] . '/';
 		}
 		$strUrl .= $row['url'];
@@ -213,49 +239,90 @@ class tl_redirect4ward extends Controller
 		switch ($row['jumpToType'])
 		{
 			// ...for internal redirects
-			case 'Intern':
-				$objPage = $this->Database
-					->prepare('SELECT * FROM tl_page WHERE id=?')
-					->execute($row['jumpTo']);
-				if (!$objPage->next()) {
+			case 'Intern' :
+				$objPage = $this->Database->prepare('SELECT * FROM tl_page WHERE id=?')->execute($row['jumpTo']);
+				if(!$objPage->next())
+				{
 					$strTarget = 'unknown page!';
 				}
-				else {
+				else
+				{
 					$strTarget = $this->generateFrontendUrl($objPage->row());
 				}
 				break;
 
 			// ...for external redirects
-			case 'Extern':
+			case 'Extern' :
 				$strTarget = $row['externalUrl'];
 				break;
 
 			// ...or continue with next
-			default:
+			default :
 				$strTarget = 'invalid target!';
 		}
 
 		$rgxp = (strlen($row['rgxp'])) ? '; REGEX' : '';
-		return sprintf('%s %s &rarr; %s <span style="color:#b3b3b3; padding-left:3px;">[%s%s]</span>',
-			$strTestIcon,
-			$strUrl,
-			$strTarget,
-			$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']],
-			$rgxp);
+		return sprintf('%s %s &rarr; %s <span style="color:#b3b3b3; padding-left:3px;">[%s%s]</span>', $strTestIcon, $strUrl, $strTarget, $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'][$row['type']], $rgxp);
 	}
-	
+
 	public function getHosts()
 	{
 		$erg = $this->Database->execute('SELECT DISTINCT(dns) FROM tl_page WHERE type="root"');
-		$arr = array(''=>$GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost']);
+		$arr = array('' => $GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost']);
 		while($erg->next())
 		{
-			if(!strlen($erg->dns)) continue;
+			if(!strlen($erg->dns))
+				continue;
 			$dns = preg_replace('/^www\./i', '', $erg->dns);
 			$arr[$dns] = $dns;
 		}
 		return $arr;
 	}
 	
+	
+	
+	/**
+	 * Return the "toggle visibility" button
+	 * @param array
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @param string
+	 * @return string
+	 */
+	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
+	{
+		if (strlen($this->Input->get('tid')))
+		{
+			$this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 1));
+			$this->redirect($this->getReferer());
+		}
+
+		// Check permissions AFTER checking the tid, so hacking attempts are logged
+		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_article::published', 'alexf'))
+		{
+			return '';
+		}
+
+		$href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
+
+		if (!$row['published'])
+		{
+			$icon = 'invisible.gif';
+		}		
+
+		$objPage = $this->Database->prepare("SELECT * FROM tl_page WHERE id=?")
+								  ->limit(1)
+								  ->execute($row['pid']);
+
+		if (!$this->User->isAdmin && !$this->User->isAllowed(4, $objPage->row()))
+		{
+			return $this->generateImage($icon) . ' ';
+		}
+
+		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
+	}	
+
 }
 ?>
