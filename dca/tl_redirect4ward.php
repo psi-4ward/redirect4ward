@@ -277,51 +277,6 @@ class tl_redirect4ward extends Controller
 			$arr[$dns] = $dns;
 		}
 		return $arr;
-	}
-	
-	
-	
-	/**
-	 * Return the "toggle visibility" button
-	 * @param array
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @param string
-	 * @return string
-	 */
-	public function toggleIcon($row, $href, $label, $title, $icon, $attributes)
-	{
-		if (strlen($this->Input->get('tid')))
-		{
-			$this->toggleVisibility($this->Input->get('tid'), ($this->Input->get('state') == 1));
-			$this->redirect($this->getReferer());
-		}
-
-		// Check permissions AFTER checking the tid, so hacking attempts are logged
-		if (!$this->User->isAdmin && !$this->User->hasAccess('tl_article::published', 'alexf'))
-		{
-			return '';
-		}
-
-		$href .= '&amp;tid='.$row['id'].'&amp;state='.($row['published'] ? '' : 1);
-
-		if (!$row['published'])
-		{
-			$icon = 'invisible.gif';
-		}		
-
-		$objPage = $this->Database->prepare("SELECT * FROM tl_page WHERE id=?")
-								  ->limit(1)
-								  ->execute($row['pid']);
-
-		if (!$this->User->isAdmin && !$this->User->isAllowed(4, $objPage->row()))
-		{
-			return $this->generateImage($icon) . ' ';
-		}
-
-		return '<a href="'.$this->addToUrl($href).'" title="'.specialchars($title).'"'.$attributes.'>'.$this->generateImage($icon, $label).'</a> ';
 	}	
 
 }
