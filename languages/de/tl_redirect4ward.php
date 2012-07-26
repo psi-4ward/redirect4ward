@@ -64,4 +64,6 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['new'] = array(
 $GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Weiterleitungs-Typ';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_source_label'] = array('Sitemap URL');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_headline'] = array('Sitemap importieren');
 ?>

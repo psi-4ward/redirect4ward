@@ -62,4 +62,7 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['new'] = array(
 $GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Redirect-type';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Target';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Config';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_source_label'] = array('Sitemap URL');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_headline'] = array('Import sitemap');
 ?>
