@@ -29,8 +29,8 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 		'sorting' => array
 		(
 			'mode'                    => 1,
-			'fields'                  => array('url'),
-			'flag'                    => 1,
+			'fields'                  => array('priority', 'url'),
+			'flag'                    => 11,
 			'panelLayout'             => 'filter;search,limit',
 		),
 		'label' => array
@@ -83,14 +83,27 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('jumpToType'),
-		'default'                     => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
-		'Intern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,published',
-		'Extern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,published'
+		'default'                     => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,priority;{publish_legend},published',
+		'Intern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,priority;{publish_legend},published',
+		'Extern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,priority;{publish_legend},published'
 	),
 
 	// Fields
 	'fields' => array
 	(
+		'jumpToType' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpToType'],
+			'exclude'                 => true,
+			'inputType'               => 'radio',
+			'filter'                  => true,
+			'default'				  => 'Intern',
+			'options'				  => array(
+											'Intern' 	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'],
+											'Extern'	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']
+										),
+			'eval'                    => array('mandatory'=>true,'submitOnChange'=>true)
+		),
 		'url' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['url'],
@@ -109,25 +122,6 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'options_callback'		  => array('tl_redirect4ward','getHosts'),
 			'eval'                    => array('maxlength'=>255,'tl_class'=>'w50')
 		),
-		'type' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['type'],
-			'default'                 => '301',
-			'exclude'                 => true,
-			'filter'                  => true,
-			'inputType'               => 'radio',
-			'reference'				  => &$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'],
-			'options'        		  => array('301', '307'),
-			'eval'                    => array('tl_class'=>'w50','mandatory'=>true)
-		),
-		'published' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['published'],
-			'exclude'                 => true,
-			'default'				  => '1',
-			'inputType'               => 'checkbox',
-			'eval'                    => array('tl_class'=>'w50')
-		),
 		'rgxp' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'],
@@ -143,19 +137,6 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'inputType'               => 'pageTree',
 			'eval'                    => array('fieldType'=>'radio','mandatory'=>true,'tl_class'=>'clr')
 		),
-		'jumpToType' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpToType'],
-			'exclude'                 => true,
-			'inputType'               => 'radio',
-			'filter'                  => true,
-			'default'				  => 'Intern',
-			'options'				  => array(
-											'Intern' 	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'],
-											'Extern'	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']
-										),
-			'eval'                    => array('mandatory'=>true,'submitOnChange'=>true)
-		),
 		'externalUrl' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'],
@@ -163,7 +144,35 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'search'                  => true,
 			'inputType'               => 'text',
 			'eval'                    => array('mandatory'=>true, 'maxlength'=>255,'tl_class'=>'clr long','decodeEntities'=>true)
-		),		
+		),
+		'type' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['type'],
+			'default'                 => '301',
+			'exclude'                 => true,
+			'filter'                  => true,
+			'inputType'               => 'radio',
+			'reference'				  => &$GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'],
+			'options'        		  => array('301', '307'),
+			'eval'                    => array('tl_class'=>'w50','mandatory'=>true)
+		),
+		'priority' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['priority'],
+			'default'                 => 10,
+			'exclude'                 => true,
+			'search'                  => true,
+			'inputType'               => 'text',
+			'eval'                    => array('mandatory'=>true, 'rgxp'=>'digit', 'maxlength'=>10,'tl_class'=>'w50')
+		),
+		'published' => array
+		(
+			'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['published'],
+			'exclude'                 => true,
+			'default'				  => '1',
+			'inputType'               => 'checkbox',
+			'eval'                    => array('tl_class'=>'w50')
+		)
 	)
 );
 

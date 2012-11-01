@@ -44,7 +44,8 @@ class PageError404_Redirect4ward extends PageError404
 																	(rgxp="" AND url=?)
 															 	 OR (rgxp="1" AND ? REGEXP url)
 															 )
-														AND (host=? OR CONCAT("www.",host)=? OR host="")'
+														AND (host=? OR CONCAT("www.",host)=? OR host="")
+												ORDER BY url, priority'
 											)
 						->limit(1)->execute('1',$url,$url,$this->Environment->host,$this->Environment->host);
 
