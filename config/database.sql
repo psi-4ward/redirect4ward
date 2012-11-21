@@ -19,6 +19,7 @@ CREATE TABLE `tl_redirect4ward` (
   `type` varchar(3) NOT NULL default '',
   `jumpToType` varchar(10) NOT NULL default '',
   `jumpTo` int(10) unsigned NOT NULL default '0',
+  `jumpToML` blob NULL,
   `externalUrl` varchar(255) NOT NULL default '',
   `rgxp` char(1) NOT NULL default '',
   `priority` int(10) unsigned NOT NULL default '10',

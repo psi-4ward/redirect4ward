@@ -35,9 +35,12 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['priority'][1]	= "Choose priority for th
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][0]	= "Active";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][1]	= "Here you can disable the redirection.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['language']     = "Languages";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'every host';
-$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'] = 'Internal redirection';
-$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern'] = 'External redirection';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern']	= 'Internal redirection';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern_ml'] = 'Internal redirection - Multilingual';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']	= 'External redirection';
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 	'301'	=> 'Permanent (301)',

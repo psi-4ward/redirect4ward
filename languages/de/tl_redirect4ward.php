@@ -35,10 +35,12 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['priority'][1]	= "Wählen Sie hier eine 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][0]	= "Aktiviert";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['published'][1]	= "Hier kann die Weiterleitung deaktiviert werden.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['language']     = "Sprachen";
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'jeder Host';
-$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'] = 'Interne Weiterleitung';
-$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern'] = 'Externe Weiterleitung';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern']	= 'Interne Weiterleitung';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern_ml'] = 'Interne Weiterleitung - Mehrsprachig';
+$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']	= 'Externe Weiterleitung';
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 	'301'	=> 'Permanente (301)',

@@ -85,6 +85,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 		'__selector__'                => array('jumpToType'),
 		'default'                     => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,priority;{publish_legend},published',
 		'Intern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpTo;{expert_legend},type,priority;{publish_legend},published',
+		'InternML'           		  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,jumpToML;{expert_legend},type,priority;{publish_legend},published',
 		'Extern'           			  => '{type_legend},jumpToType;{target_legend},url,host,rgxp,externalUrl;{expert_legend},type,priority;{publish_legend},published'
 	),
 
@@ -100,6 +101,7 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'default'				  => 'Intern',
 			'options'				  => array(
 											'Intern' 	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern'],
+											'InternML' 	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['intern_ml'],
 											'Extern'	=> &$GLOBALS['TL_LANG']['tl_content']['tl_redirect4ward']['tl_redirect4wardTypes']['extern']
 										),
 			'eval'                    => array('mandatory'=>true,'submitOnChange'=>true)
@@ -136,6 +138,48 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'exclude'                 => true,
 			'inputType'               => 'pageTree',
 			'eval'                    => array('fieldType'=>'radio','mandatory'=>true,'tl_class'=>'clr')
+		),
+		'jumpToML' => array(
+			'label'				      => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],
+			'inputType'				  => 'multiColumnWizard',
+			'load_callback'			  => array(array('tl_redirect4ward', 'getLanguageFields')),
+			'eval' => array(
+				'buttons'	=> array(
+					'copy'			  => false,
+					'delete'		  => false,
+					'up'			  => false,
+					'down'			  => false
+				),
+				'style'						 => 'width:100%;',
+				'tl_class'					 =>'clr',
+				'columnFields'				 => array(
+					'language'				 => array(
+						'label'				 => &$GLOBALS['TL_LANG']['tl_redirect4ward']['language'],						
+						'inputType'			 => 'justtextoption',
+						'options_callback'	 => array('tl_redirect4ward', 'getActivePageLanguages'),
+						'eval'				 => array(
+							'hideHead'		 => false,
+							'hideBody'		 => false,
+							'valign'		 => 'top'
+						)
+					),
+					'jumpTo'				 => array(
+						'label'				 => &$GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'],						
+						'inputType'			 => 'text',
+						'eval'				 => array(
+							'mandatory'		 => true,
+							'rgxp'			 => 'url',
+							'decodeEntities' => true,
+							'maxlength'		 => 255,
+							'hideHead'		 => false,
+							'hideBody'		 => false,
+						),
+						'wizard'			 => array(
+							array('tl_redirect4ward', 'pagePicker')
+						)
+					)
+				),				
+			)
 		),
 		'externalUrl' => array
 		(
@@ -233,6 +277,28 @@ class tl_redirect4ward extends Controller
 					$strTarget = $this->generateFrontendUrl($objPage->row());
 				}
 				break;
+				
+			case 'InternML':
+				$objPage = $this->Database
+					->prepare('SELECT * FROM tl_redirect4ward WHERE id=?')
+					->execute($row['id']);
+				
+				$arrValues = deserialize($objPage->jumpToML);
+				
+				if (count($arrValues) == 0) {
+					$strTarget = 'unknown page!';
+				}
+				else {
+					$strReturn = '<ul>';
+					 foreach ($arrValues as $value)
+					 {
+						$strReturn .= '<li>' . $value['language'] . ' : ' . $this->replaceInsertTags($value['jumpTo']) . '</li>';
+					 }
+					 $strReturn .= '</ul>';
+					
+					$strTarget = $strReturn;
+				}
+				break;	
 
 			// ...for external redirects
 			case 'Extern':
@@ -264,6 +330,85 @@ class tl_redirect4ward extends Controller
 			$arr[$dns] = $dns;
 		}
 		return $arr;
+	}
+	
+	/**
+	 * Load all active laguages
+	 * 
+	 * @return array
+	 */
+	public function getActivePageLanguages()
+	{
+		$arrReturn = array();
+
+		$arrLanguages = $this->getLanguages();
+
+		$arrRootPages = $this->Database
+				->query('SELECT language FROM tl_page WHERE type="root" ')
+				->fetchAllAssoc();
+		
+		$arrReturn['fallback'] = 'Fallback';
+
+		foreach ($arrRootPages as $value)
+		{
+			if (key_exists($value['language'], $arrLanguages))
+			{
+				$arrReturn[$value['language']] = $arrLanguages[$value['language']];
+			}
+			else
+			{
+				$arrReturn[$value['language']] = $value['language'];
+			}
+		}
+
+		return $arrReturn;
+	}
+	
+	/**
+	 * Compare current page language against the stored once.
+	 * 
+	 * @param array $varValue
+	 * @return array
+	 */
+	public function getLanguageFields($varValue)
+	{
+		$varValue	 = deserialize($varValue, true);
+		$newValues	 = array();
+		$arrValues = array();
+		
+		foreach ($varValue as $value)
+		{
+			$arrValues[$value['language']] = $value['jumpTo'];
+		}
+
+		$arrRootPages = $this->Database
+				->query('SELECT language FROM tl_page WHERE type="root"')
+				->fetchAllAssoc();
+		
+		$newValues[] = array(
+			'language'	 => 'fallback',
+			'jumpTo'		 => $arrValues['fallback'],
+		);
+
+		foreach ($arrRootPages as $value)
+		{
+			$newValues[] = array(
+				'language'	 => $value['language'],
+				'jumpTo'		 => $arrValues[$value['language']],
+			);
+		}
+		
+		return serialize($newValues);
+	}
+	
+	/**
+	 * Return the link picker wizard
+	 * @param DataContainer
+	 * @return string
+	 */
+	public function pagePicker(DataContainer $dc)
+	{
+		return ' ' . $this->generateImage('pickpage.gif', $GLOBALS['TL_LANG']['MSC']['pagepicker'], 'style="vertical-align:top;cursor:pointer" onclick="Backend.pickPage(\'ctrl_' . $dc->inputName . '\')"');
 	}
 	
 }
