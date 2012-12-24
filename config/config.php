@@ -8,6 +8,9 @@
  * @filesource
  */
 
+// Domain Link 
+$GLOBALS['DNS']['incompatibleComponents']['tl_redirect4ward'][] = 'label'; 
+
 array_insert($GLOBALS['BE_MOD']['system'],2,array(
 	'redirect4ward' => array(
 		'tables'     => array('tl_redirect4ward'),
