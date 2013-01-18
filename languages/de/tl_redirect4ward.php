@@ -23,6 +23,9 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][1]	= "Interpretiert die URL als 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'][0]	= "Umleitungsziel";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'][1]	= "Zu dieser internen Website wird umgeleitet.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['parameters'][0]	= "Parameter";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['parameters'][1]	= "Hier können Sie zusätzliche Parameter definieren, welche an die URL angehängt werden.";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'][0]		= "Externe URL";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'][1]		= "Die URL der Zeilseite. Diese kann auch ohne Domain angegeben werden.";
 
