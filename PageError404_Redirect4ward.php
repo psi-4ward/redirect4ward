@@ -72,6 +72,8 @@ class PageError404_Redirect4ward extends PageError404
 				$arrRedirectSettings = deserialize($objTarget->jumpToML);
 				$mixJumpTo = '';
 				$mixJumpToFallback = '';
+                $mixParameters = '';
+                $mixParametersFallback = '';
 				
 				// Search jump to
 				foreach ($arrRedirectSettings as $arrSetting)
@@ -80,12 +82,14 @@ class PageError404_Redirect4ward extends PageError404
 					if($arrSetting['language'] == 'fallback')
 					{
 						$mixJumpToFallback = $arrSetting['jumpTo'];
+                        $mixParametersFallback = $arrSetting['parameters'];
 					}
 					
 					// Search current language
 					if($GLOBALS['TL_LANGUAGE'] == $arrSetting['language'])
 					{
 						$mixJumpTo = $arrSetting['jumpTo'];
+                        $mixParameters = $arrSetting['parameters'];
 					}
 				}
 				
@@ -99,6 +103,7 @@ class PageError404_Redirect4ward extends PageError404
 				if($mixJumpTo == '')
 				{
 					$mixJumpTo = $mixJumpToFallback;
+                    $mixParameters = $mixParametersFallback;
 				}
 				
 				// Get ID from inserttag 
@@ -107,15 +112,15 @@ class PageError404_Redirect4ward extends PageError404
 
 				// Redirect to internal jumpTo page				
 				$objJumpTo = $this->Database->prepare("SELECT id, alias FROM tl_page WHERE id=?")->limit(1)->execute($mixJumpTo);
-				
+				                
 				if ($objJumpTo->numRows)
 				{
 					$type = ($objTarget->type=='301')?'301':'303'; // TL knows only "303: see other", no "307: temporary"
 
 					// set objPage cause we need the rootLanguage there for generateFrontendUrl
 					$GLOBALS['objPage'] = $this->getPageDetails($objJumpTo->id);
-
-					$this->redirect($this->generateFrontendUrl($objJumpTo->row()),$type);
+                    
+					$this->redirect($this->generateFrontendUrl($objJumpTo->row(), html_entity_decode($mixParameters)),$type);
 				}
 			}
 			else if($objTarget->jumpToType == 'Extern')
@@ -131,8 +136,8 @@ class PageError404_Redirect4ward extends PageError404
 				}
 
 				// Redirect to external page
-				$type = ($objTarget->type=='301')?'301':'303'; // TL knows only "303: see other", no "307: temporary"
-				$this->redirect($targetURL,$type);
+				$type = ($objTarget->type == '301') ? '301' : '303'; // TL knows only "303: see other", no "307: temporary"
+                $this->redirect($targetURL,$type);
 			}
 		}
 	}
