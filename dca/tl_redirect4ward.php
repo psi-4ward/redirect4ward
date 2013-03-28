@@ -160,7 +160,6 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 						'eval'				 => array(
 							'hideHead'		 => false,
 							'hideBody'		 => false,
-							'valign'		 => 'top'
 						)
 					),
 					'jumpTo'				 => array(
@@ -173,11 +172,24 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 							'maxlength'		 => 255,
 							'hideHead'		 => false,
 							'hideBody'		 => false,
+                            'style'          => 'width:150px;',
 						),
 						'wizard'			 => array(
 							array('tl_redirect4ward', 'pagePicker')
 						)
-					)
+					),
+					'parameters'		     => array(
+						'label'				 => &$GLOBALS['TL_LANG']['tl_redirect4ward']['parameters'],						
+						'inputType'			 => 'text',
+						'eval'				 => array(
+                            'trailingSlash'  => false,
+							'mandatory'		 => false,
+							'maxlength'		 => 255,
+							'hideHead'		 => false,
+							'hideBody'		 => false,
+                            'style'          => 'width:360px;',
+						)						
+					),                    
 				),				
 			)
 		),
@@ -292,7 +304,7 @@ class tl_redirect4ward extends Controller
 					$strReturn = '<ul>';
 					 foreach ($arrValues as $value)
 					 {
-						$strReturn .= '<li>' . $value['language'] . ' : ' . $this->replaceInsertTags($value['jumpTo']) . '</li>';
+						$strReturn .= '<li>' . $value['language'] . ' : ' . $this->replaceInsertTags($value['jumpTo']) . $value['parameters'] . '</li>';
 					 }
 					 $strReturn .= '</ul>';
 					
@@ -372,33 +384,38 @@ class tl_redirect4ward extends Controller
 	 */
 	public function getLanguageFields($varValue)
 	{
-		$varValue	 = deserialize($varValue, true);
+        $varValue	 = deserialize($varValue, true); 
 		$newValues	 = array();
 		$arrValues = array();
 		
 		foreach ($varValue as $value)
-		{
-			$arrValues[$value['language']] = $value['jumpTo'];
-		}
+        {
+            $arrValues[$value['language']] = array(
+                'jumpTo'     => $value['jumpTo'],
+                'parameters' => $value['parameters']
+            );
+        }
 
 		$arrRootPages = $this->Database
 				->query('SELECT language FROM tl_page WHERE type="root"')
 				->fetchAllAssoc();
 		
 		$newValues[] = array(
-			'language'	 => 'fallback',
-			'jumpTo'		 => $arrValues['fallback'],
-		);
+            'language'   => 'fallback',
+            'jumpTo'     => $arrValues['fallback']['jumpTo'],
+            'parameters' => $arrValues['fallback']['parameters']
+        );
 
-		foreach ($arrRootPages as $value)
-		{
-			$newValues[] = array(
-				'language'	 => $value['language'],
-				'jumpTo'		 => $arrValues[$value['language']],
-			);
-		}
-		
-		return serialize($newValues);
+        foreach ($arrRootPages as $value)
+        {
+            $newValues[] = array(
+                'language'   => $value['language'],
+                'jumpTo'     => $arrValues[$value['language']]['jumpTo'],
+                'parameters' => $arrValues[$value['language']]['parameters'],
+            );
+        }
+        
+        return serialize($newValues);
 	}
 	
 	/**

@@ -23,6 +23,9 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['rgxp'][1]	= "Use URL as REGEXP. You can
 $GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'][0]	= "Redirect-target";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['jumpTo'][1]	= "The request redirects to this website.";
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['parameters'][0]	= "Parameters";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['parameters'][1]	= "Additional parameters for the url.";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'][0]		= "External URL";
 $GLOBALS['TL_LANG']['tl_redirect4ward']['externalUrl'][1]		= "The URL of the target-website. You can enter one without an domain.";
 
