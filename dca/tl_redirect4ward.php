@@ -456,25 +456,27 @@ class tl_redirect4ward extends Controller
 				while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
 
 					if ($data[0] != 'url' && strlen($data[0])) {
-						$countRedirect++;
-						$arrSet = array(
-							'tstamp' => time(),
-							'url' => $data[0],
-							'host' => $data[1],
-							'type' => $data[2],
-							'jumpToType' => $data[3],
-							'jumpTo' => $data[4],
-							'externalUrl' => $data[5],
-							'rgxp' => $data[6],
-							'published' => $data[7]
-						);
-
-						$this->Database->prepare("INSERT INTO tl_redirect4ward %s")->set($arrSet)->execute();
+						 if($this->checkExistingRedirect($data) == 0) {
+							if($data[3] == 'Intern') {
+								if($this->redirectImportPageCheck($data[4]) > 0) {
+									$this->addRedirectData($data);
+									$this->addInfoMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_success'], $data[0], $data[4]));
+									$countRedirect++;
+								} else {
+									$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_error'], $data[0], $data[4]));
+								}
+							} else {
+								$this->addRedirectData($data);
+								$countRedirect++;
+							}
+						} else {
+							$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_exist'], $data[0], $data[4]));
+						}
 					}
 				}
-				
+
 				fclose($handle);
-				$this->addInfoMessage($countRedirect . " Weiterleitungen wurden importiert.");
+				$this->addInfoMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_complete'], $countRedirect));
 			}
 		}
 		$this->loadDataContainer("tl_redirect4ward");
@@ -509,6 +511,58 @@ class tl_redirect4ward extends Controller
 </div>
 </form>';
 
+	}
+
+	public function checkExistingRedirect($arrData) {
+		$arrData = array(
+			'url' => $arrData[0],
+			'host' => $arrData[1],
+			'type' => $arrData[2],
+			'jumpToType' => $arrData[3],
+			'jumpTo' => $arrData[4],
+			'externalUrl' => $arrData[5],
+			'rgxp' => $arrData[6],
+		);
+
+		$arrQuery = array();
+		foreach($arrData as $field => $value) {
+			$arrQuery[] = sprintf('%s="%s"', $field, $value);
+		}
+
+		$objRedirect = $this->Database->query("SELECT id FROM tl_redirect4ward Where " . implode(' AND ', $arrQuery));
+
+		return $objRedirect->numRows;
+	}
+
+	/**
+	 * add the new redirect to the database
+	 * @param $arrData
+	 */
+	public function addRedirectData($arrData) {
+		$arrSet = array(
+			'tstamp' => time(),
+			'url' => $arrData[0],
+			'host' => $arrData[1],
+			'type' => $arrData[2],
+			'jumpToType' => $arrData[3],
+			'jumpTo' => $arrData[4],
+			'externalUrl' => $arrData[5],
+			'rgxp' => $arrData[6],
+			'published' => $arrData[7]
+		);
+
+		$this->Database->prepare("INSERT INTO tl_redirect4ward %s")->set($arrSet)->execute();
+	}
+
+	/**
+	 * check whether the redirect page exist
+	 * @param $intPage
+	 * @return mixed
+	 */
+	public function redirectImportPageCheck($intPage) {
+		$objPage = $this->Database->prepare("SELECT id FROM tl_page Where id = ?")->execute($intPage);
+
+		return $objPage->numRows;
 	}
 	
 }

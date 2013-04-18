@@ -59,7 +59,14 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Veröffentlichung';
 
+/**
+ * Import
+ */
 $GLOBALS['TL_LANG']['tl_redirect4ward']['source'] = array('Import Datei','CSV-Datei mit den Redirect-Daten');
 $GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'] = array('Weiterleitungen Importieren','');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_error'] = 'Die interne Weiterleitung für die URL %s und der Seiten ID %s konnte nicht importiert werden.';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_success'] = 'Die Weiterleitung für die URL %s und der Seiten ID %s wurde erfolgreich importiert.';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_exist'] = 'Die Weiterleitung für die URL %s und der Seiten ID %s existiert bereits.';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_complete'] = 'Es wurden insgesamt %s Weiterleitungen importiert.';
 
 ?>
