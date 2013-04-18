@@ -59,5 +59,7 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Veröffentlichung';
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'] = array('Import Datei','CSV-Datei mit den Redirect-Daten');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'] = array('Weiterleitungen Importieren','');
 
 ?>
