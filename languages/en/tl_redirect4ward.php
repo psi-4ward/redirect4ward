@@ -58,4 +58,13 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Target';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Config';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Publish settings';
 
+/**
+ * Import
+ */
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'] = array('Import File','CSV-File holding the redirect data');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'] = array('Import redirects','');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_error'] = array('The internal redirect for the url %s and page id %s could not imported.');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_success'] = array('The redirect for the url %s and page id %s was successfully imported.');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_exist'] = array('The redirect for the url %s and page id %s already.');
+$GLOBALS['TL_LANG']['tl_redirect4ward']['import_complete'] = array('%s redirect were imported successfully.');
 ?>

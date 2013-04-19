@@ -13,3 +13,7 @@ Abhängige Extensions
 
 
 redirect4ward ist auch im offiziellen [Extension-Repository](https://contao.org/de/extension-list/view/Redirect4ward.html) von Contao
+
+Abhängige Extensions
+--------------------
+url;host;type;jumpToType;jumpTo;externalUrl;rgxp;priority;published

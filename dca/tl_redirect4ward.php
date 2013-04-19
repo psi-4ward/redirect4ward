@@ -47,6 +47,13 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 				'href'                => 'act=select',
 				'class'               => 'header_edit_all',
 				'attributes'          => 'onclick="Backend.getScrollOffset();"'
+			),
+			'redirectImport' => array
+			(
+				'label'               => &$GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'],
+				'href'                => 'key=redirectImport',
+				'class'               => 'header_theme_import',
+				'attributes'          => 'onclick="Backend.getScrollOffset()"'
 			)
 		),
 		'operations' => array
@@ -228,7 +235,14 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 			'default'				  => '1',
 			'inputType'               => 'checkbox',
 			'eval'                    => array('tl_class'=>'w50')
-		)
+		),
+		'source' => array
+		(
+				'label'                   => &$GLOBALS['TL_LANG']['tl_redirect4ward']['source'],
+				'exclude'                 => true,
+				'inputType'               => 'fileTree',
+				'eval'                    => array('fieldType'=>'radio', 'files'=>true,'filesOnly' => true, 'mandatory'=>true, 'tl_class'=>'clr','extensions' => 'csv')
+		),
 	)
 );
 
@@ -426,6 +440,137 @@ class tl_redirect4ward extends Controller
 	public function pagePicker(DataContainer $dc)
 	{
 		return ' ' . $this->generateImage('pickpage.gif', $GLOBALS['TL_LANG']['MSC']['pagepicker'], 'style="vertical-align:top;cursor:pointer" onclick="Backend.pickPage(\'ctrl_' . $dc->inputName . '\')"');
+	}
+
+	/**
+	 * import a specified csv file to the database
+	 * @return string
+	 */
+	public function redirectImport()
+	{
+
+		if ($this->Input->post('FORM_SUBMIT') == 'tl_redirect_import') {
+			$countRedirect = 0;
+			if (file_exists(TL_ROOT . '/' . $this->Input->post('source'))) {
+				$handle = fopen(TL_ROOT . '/' . $this->Input->post('source'), "r");
+				while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
+
+					if ($data[0] != 'url' && strlen($data[0])) {
+						 if($this->checkExistingRedirect($data) == 0) {
+							if($data[3] == 'Intern') {
+								if($this->redirectImportPageCheck($data[4]) > 0) {
+									$this->addRedirectData($data);
+									$this->addInfoMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_success'], $data[0], $data[4]));
+									$countRedirect++;
+								} else {
+									$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_error'], $data[0], $data[4]));
+								}
+							} else {
+								$this->addRedirectData($data);
+								$countRedirect++;
+							}
+						} else {
+							$this->addErrorMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_exist'], $data[0], $data[4]));
+						}
+					}
+				}
+
+				fclose($handle);
+				$this->addInfoMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_complete'], $countRedirect));
+
+				$this->redirect($this->addToUrl('key='));
+			}
+		}
+		$this->loadDataContainer("tl_redirect4ward");
+		$objTree = new FileTree($this->prepareForWidget($GLOBALS['TL_DCA']['tl_redirect4ward']['fields']['source'], 'source', null, 'source', 'tl_redirect4ward'));
+
+		// Return the form
+		return '
+<div id="tl_buttons">
+<a href="' . ampersand(str_replace('&key=redirectImport', '', $this->Environment->request)) . '" class="header_back" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['backBT']) . '" accesskey="b">' . $GLOBALS['TL_LANG']['MSC']['backBT'] . '</a>
+</div>
+
+<h2 class="sub_headline">' . $GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'][0] . '</h2>
+' . $this->getMessages() . '
+<form action="' . ampersand($this->Environment->request, true) . '" id="tl_redirect_import" class="tl_form" method="post">
+<div class="tl_formbody_edit">
+<input type="hidden" name="FORM_SUBMIT" value="tl_redirect_import">
+<input type="hidden" name="REQUEST_TOKEN" value="' . REQUEST_TOKEN . '">
+
+<div class="tl_tbox">
+  <h3><label for="source">' . $GLOBALS['TL_LANG']['tl_redirect4ward']['source'][0] . '</label> <a href="contao/files.php" title="' . specialchars($GLOBALS['TL_LANG']['MSC']['fileManager']) . '" data-lightbox="files 765 80%">' . $this->generateImage('filemanager.gif', $GLOBALS['TL_LANG']['MSC']['fileManager'], 'style="vertical-align:text-bottom"') . '</a></h3>' . $objTree->generate() . (strlen($GLOBALS['TL_LANG']['tl_redirect4ward']['source'][1]) ? '
+  <p class="tl_help tl_tip">' . $GLOBALS['TL_LANG']['tl_redirect4ward']['source'][1] . '</p>' : '') . '
+</div>
+
+</div>
+
+<div class="tl_formbody_submit">
+
+<div class="tl_submit_container">
+  <input type="submit" name="save" id="save" class="tl_submit" accesskey="s" value="' . specialchars($GLOBALS['TL_LANG']['tl_redirect4ward']['redirectImport'][0]) . '">
+</div>
+
+</div>
+</form>';
+
+	}
+
+	/**
+	 * check for an existing redirect in the database
+	 * @param $arrData
+	 * @return mixed
+	 */
+	public function checkExistingRedirect($arrData) {
+		$arrData = array(
+			'url' => $arrData[0],
+			'host' => $arrData[1],
+			'type' => $arrData[2],
+			'jumpToType' => $arrData[3],
+			'jumpTo' => $arrData[4],
+			'externalUrl' => $arrData[5],
+			'rgxp' => $arrData[6],
+		);
+
+		$arrQuery = array();
+		foreach($arrData as $field => $value) {
+			$arrQuery[] = sprintf('%s="%s"', $field, $value);
+		}
+
+		$objRedirect = $this->Database->query("SELECT id FROM tl_redirect4ward Where " . implode(' AND ', $arrQuery));
+
+		return $objRedirect->numRows;
+	}
+
+	/**
+	 * add the new redirect to the database
+	 * @param $arrData
+	 */
+	public function addRedirectData($arrData) {
+		$arrSet = array(
+			'tstamp' => time(),
+			'url' => $arrData[0],
+			'host' => $arrData[1],
+			'type' => $arrData[2],
+			'jumpToType' => $arrData[3],
+			'jumpTo' => $arrData[4],
+			'externalUrl' => $arrData[5],
+			'rgxp' => $arrData[6],
+			'priority' => $arrData[7],
+			'published' => $arrData[8]
+		);
+
+		$this->Database->prepare("INSERT INTO tl_redirect4ward %s")->set($arrSet)->execute();
+	}
+
+	/**
+	 * check whether the redirect page exist
+	 * @param $intPage
+	 * @return mixed
+	 */
+	public function redirectImportPageCheck($intPage) {
+		$objPage = $this->Database->prepare("SELECT id FROM tl_page Where id = ?")->execute($intPage);
+
+		return $objPage->numRows;
 	}
 	
 }
