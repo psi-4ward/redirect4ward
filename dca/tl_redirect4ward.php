@@ -477,6 +477,8 @@ class tl_redirect4ward extends Controller
 
 				fclose($handle);
 				$this->addInfoMessage(sprintf($GLOBALS['TL_LANG']['tl_redirect4ward']['import_complete'], $countRedirect));
+
+				$this->redirect($this->addToUrl('key='));
 			}
 		}
 		$this->loadDataContainer("tl_redirect4ward");
@@ -513,6 +515,11 @@ class tl_redirect4ward extends Controller
 
 	}
 
+	/**
+	 * check for an existing redirect in the database
+	 * @param $arrData
+	 * @return mixed
+	 */
 	public function checkExistingRedirect($arrData) {
 		$arrData = array(
 			'url' => $arrData[0],
@@ -548,7 +555,8 @@ class tl_redirect4ward extends Controller
 			'jumpTo' => $arrData[4],
 			'externalUrl' => $arrData[5],
 			'rgxp' => $arrData[6],
-			'published' => $arrData[7]
+			'priority' => $arrData[7],
+			'published' => $arrData[8]
 		);
 
 		$this->Database->prepare("INSERT INTO tl_redirect4ward %s")->set($arrSet)->execute();
