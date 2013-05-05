@@ -53,9 +53,27 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['new']    = array('New redirection', 'Creates a new redirection.');
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'][0]	= "Import sitemap";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'][1]	= "Import sitemap.";
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'][0]	= "Import 404 logs";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'][1]	= "Import 404 logs.";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Redirect-type';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Target';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Config';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Publish settings';
 
-?>
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'][0] = "Sitemap URL";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'][1] = "Sitemap URL.";
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addLogMessage'] = 'Add %d new redirections from the log.';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addSitemapMessage'] = 'Add %d new redirection from the sitemap (<a href="%s">%s</a>).';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addSitemapErrorMessage'] = 'Can not read sitemap (<a href="%s">%s</a>).';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'jeder Host';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_source_label'] = 'Sitemap URL';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_headline'] = 'Import sitemap';

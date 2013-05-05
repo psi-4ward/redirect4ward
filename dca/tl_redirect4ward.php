@@ -41,6 +41,18 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 		),
 		'global_operations' => array
 		(
+      'importSitemap' => array(
+        'label'								=> &$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'],
+        'href' 								=> 'key=importSitemap',
+				'class'               => 'header_new',
+        'attributes' 					=> 'onclick="Backend.getScrollOffset();"'
+    	),
+      'importLogs' => array(
+        'label' 							=> &$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'],
+        'href' 								=> 'key=importLogs',
+				'class'               => 'header_new',
+      	'attributes' 					=> 'onclick="Backend.getScrollOffset();"'
+  		),
 			'all' => array
 			(
 				'label'               => &$GLOBALS['TL_LANG']['MSC']['all'],
@@ -363,7 +375,7 @@ class tl_redirect4ward extends Controller
 
 		foreach ($arrRootPages as $value)
 		{
-			if (key_exists($value['language'], $arrLanguages))
+			if (array_key_exists($value['language'], $arrLanguages))
 			{
 				$arrReturn[$value['language']] = $arrLanguages[$value['language']];
 			}
@@ -429,4 +441,3 @@ class tl_redirect4ward extends Controller
 	}
 	
 }
-?>

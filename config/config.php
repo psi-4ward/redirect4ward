@@ -13,8 +13,10 @@ $GLOBALS['DNS']['incompatibleComponents']['tl_redirect4ward'][] = 'label';
 
 array_insert($GLOBALS['BE_MOD']['system'],2,array(
 	'redirect4ward' => array(
-		'tables'     => array('tl_redirect4ward'),
-		'icon' => 'system/modules/redirect4ward/html/icon.png' 
+		'tables'     		=> array('tl_redirect4ward'),
+		'importSitemap' => array('Redirect','importSitemap'),
+		'importLogs' 		=> array('Redirect','importLogs'),
+		'icon' 					=> 'system/modules/redirect4ward/html/icon.png'
 	)
 ));
 
@@ -24,5 +26,3 @@ if (!isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) || !$GLOBALS['TL
 else {
 	$GLOBALS['TL_HTACCESS_SUBMODULES']['rewrite']['redirect4ward'] = 'HtaccessRedirect4ward';
 }
-
-?>
