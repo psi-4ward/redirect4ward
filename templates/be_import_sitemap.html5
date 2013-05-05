@@ -1,0 +1,32 @@
+<div id="tl_buttons">
+    <a href="<?php echo $this->hrefBack; ?>" class="header_back" title="<?php echo $this->goBack; ?>" accesskey="b"
+       onclick="Backend.getScrollOffset();"><?php echo $this->goBack; ?></a>
+</div>
+
+<h2 class="sub_headline"><?php echo $this->headline; ?></h2>
+
+        <?php if ($this->hasStatus):?>
+<div class="tl_message">
+<p class="<?php echo $this->statusClass; ?>"><?php echo $this->status;?></p>
+</div>
+        <?php endif; ?>
+
+<form action="<?php echo $this->request; ?>" id="tl_import_sitemap" class="tl_form" method="post"
+      enctype="multipart/form-data">
+<div class="tl_formbody_edit">
+    <input type="hidden" name="FORM_SUBMIT" value="tl_import_sitemap"/>
+    <input type="hidden" name="REQUEST_TOKEN" value="<?php echo REQUEST_TOKEN; ?>">
+
+    <div class="tl_tbox">
+        <h3><?php echo  $this->sitemap_source_label; ?></h3>
+        <?php echo $this->sitemap_source->generateWithError(); ?>
+    </div>
+</div>
+
+<div class="tl_formbody_submit">
+    <div class="tl_submit_container">
+        <input type="submit" name="import" id="save" class="tl_submit" alt="<?php echo $this->submit; ?>" accesskey="s"
+               value="<?php echo $this->submit; ?>"/>
+    </div>
+</div>
+</form>

@@ -54,10 +54,26 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['typeOptions'] = array(
 
 $GLOBALS['TL_LANG']['tl_redirect4ward']['new']    = array('Neue Weiterleitung', 'Eine neue Weiterleitung anlegen');
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'][0]	= "Sitemap importieren";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importSitemap'][1]	= "Sitemap importieren.";
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'][0]	= "404 Logs importieren";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['importLogs'][1]	= "404 Logs der letzten Stunde importieren.";
+
 $GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Weiterleitungs-Typ';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Veröffentlichung';
 
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'][0] = "Sitemap URL";
+$GLOBALS['TL_LANG']['tl_redirect4ward']['source'][1] = "URL der zu importierenden Sitemap.";
 
-?>
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addLogMessage'] = '%d neue Weiterleitungen aus den Logs hinzugefügt.';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addSitemapMessage'] = '%d neue Weiterleitungen aus der Sitemap (<a href="%s">%s</a>) hinzugefügt.';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['addSitemapErrorMessage'] = 'Sitemap (<a href="%s">%s</a>) kann nicht gelesen werden.';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['everyHost'] = 'jeder Host';
+
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_source_label'] = 'Sitemap URL';
+$GLOBALS['TL_LANG']['tl_redirect4ward']['sitemap_headline'] = 'Sitemap importieren';
