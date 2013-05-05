@@ -19,6 +19,7 @@ class Redirect extends Backend
 		{
 				parent::__construct();
 				$this->Template = new BackendTemplate('be_import_sitemap');
+				$this->arrAddedUrls = array();
 		}
 
 		/**
@@ -91,7 +92,6 @@ class Redirect extends Backend
 				$this->import('tl_redirect4ward');
 
 				$this->arrHosts = $this->tl_redirect4ward->getHosts();
-				$this->arrAddedUrls = array();
 
 				$intStart = time() - 3600;
 
