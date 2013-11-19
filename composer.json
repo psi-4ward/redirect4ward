@@ -1,6 +1,6 @@
 {
 	"name":"psi/redirect4ward",
-	"description":"CSS Class selection wizard for contao",
+	"description":"Redirect to internal/external pages or to the most similar one.",
 	"keywords":["redirect", "404"],
 	"type":"contao-module",
 	"homepage":"https://github.com/psi-4ward/redirect4ward",
