@@ -1,4 +1,4 @@
-<?php if(!defined('TL_ROOT')) die('You cannot access this file directly!');
+<?php
 
 /**
  * @copyright 	4ward.media 2012 <http://www.4wardmedia.de>
@@ -8,7 +8,7 @@
  * @filesource
  */
  
-class PageError404_Redirect4ward extends PageError404
+class PageError404_Redirect4ward extends \PageError404
 {
 
 
@@ -45,7 +45,7 @@ class PageError404_Redirect4ward extends PageError404
 															 	 OR (rgxp="1" AND ? REGEXP url)
 															 )
 														AND (host=? OR CONCAT("www.",host)=? OR host="")
-												ORDER BY url, priority'
+												ORDER BY priority, url'
 											)
 						->limit(1)->execute('1',$url,$url,$this->Environment->host,$this->Environment->host);
 		
@@ -137,8 +137,39 @@ class PageError404_Redirect4ward extends PageError404
 
 				// Redirect to external page
 				$type = ($objTarget->type == '301') ? '301' : '303'; // TL knows only "303: see other", no "307: temporary"
-                $this->redirect($targetURL,$type);
+                $this->redirect($targetURL, $type);
 			}
+		}
+		else if($GLOBALS['TL_CONFIG']['redirect4wardAvoid404'])
+		{
+			// Find the most similar page an redirect instead of showing the 404 page
+			$url = str_replace(array('index.php', '.html'), '', $url);
+			$erg = array(false, -1);
+
+			$t = \ArticleModel::getTable();
+			$time = time();
+			$objArticles = \ArticleModel::findAll(array
+			(
+				'columns' => "($t.start='' OR $t.start<$time) AND ($t.stop='' OR $t.stop>$time) AND $t.published=1"
+			));
+
+			foreach($objArticles as $objArticle)
+			{
+				// Eingegebene URL wird mit Sitemap-URLs abgeglichen
+				$lev = levenshtein($url, $objArticle->alias);
+
+				if($lev <= $erg[1] || $erg[1] < 0)
+				{
+					$erg[0] = $objArticle;
+					$erg[1] = $lev;
+				}
+			}
+
+			if($erg[0])
+			{
+				$this->redirect($this->generateFrontendUrl($objArticle->row()), 301);
+			}
+
 		}
 	}
 }

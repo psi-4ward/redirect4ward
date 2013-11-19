@@ -1,7 +1,7 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
- * @copyright 	4ward.media 2012 <http://www.4wardmedia.de>
+ * @copyright 	4ward.media 2013 <http://www.4wardmedia.de>
  * @author 		Christoph Wiechert <wio@psitrax.de>
  * @license    	LGPL
  * @package 	redirect4ward
@@ -58,6 +58,3 @@ $GLOBALS['TL_LANG']['tl_redirect4ward']['type_legend'] = 'Weiterleitungs-Typ';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['target_legend'] = 'Ziel';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['expert_legend'] = 'Weitere Einstellungen';
 $GLOBALS['TL_LANG']['tl_redirect4ward']['publish_legend'] = 'Veröffentlichung';
-
-
-?>

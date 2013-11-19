@@ -1,7 +1,7 @@
-<?php if (!defined('TL_ROOT')) die('You can not access this file directly!');
+<?php
 
 /**
- * @copyright 	4ward.media 2012 <http://www.4wardmedia.de>
+ * @copyright 	4ward.media 2013 <http://www.4wardmedia.de>
  * @author 		Christoph Wiechert <wio@psitrax.de>
  * @license    	LGPL
  * @package 	redirect4ward
@@ -266,7 +266,7 @@ class tl_redirect4ward extends Controller
 		}
 		$strTestUrl .= '/' . $row['url'];
 
-		$strTestIcon = '<a href="' . $strTestUrl . '" target="_blank">' . $this->generateImage('system/themes/default/images/root.gif', '') . '</a>';
+		$strTestIcon = '<a href="' . $strTestUrl . '" target="_blank">' .\Image::getHtml('system/themes/default/images/root.gif', '') . '</a>';
 
 		$strUrl = '';
 		if ($row['host']) {
@@ -425,8 +425,7 @@ class tl_redirect4ward extends Controller
 	 */
 	public function pagePicker(DataContainer $dc)
 	{
-		return ' ' . $this->generateImage('pickpage.gif', $GLOBALS['TL_LANG']['MSC']['pagepicker'], 'style="vertical-align:top;cursor:pointer" onclick="Backend.pickPage(\'ctrl_' . $dc->inputName . '\')"');
+		return ' ' .\Image::getHtml('pickpage.gif', $GLOBALS['TL_LANG']['MSC']['pagepicker'], 'style="vertical-align:top;cursor:pointer" onclick="Backend.pickPage(\'ctrl_' . $dc->inputName . '\')"');
 	}
 	
 }
-?>
