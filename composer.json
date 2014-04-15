@@ -27,8 +27,10 @@
   "suggest": {
     "bit3/contao-htaccess": "Redirect using the .htaccess file."
   },
-    "conflict": {
-      "contao/core": "3.0.*"
+  "conflict": {
+    "contao/core": "3.0.*",
+    "contao-legacy/htaccess": "*",
+    "bit3/contao-htaccess": "<3-dev"
   },
   "replace": {
     "contao-legacy/redirect4ward": "*"
