@@ -40,38 +40,47 @@
  * @author     Tristan Lins <info@infinitysoft.de>
  * @package    htaccess Generator
  */
-class HtaccessRedirect4ward extends Controller implements HtaccessSubmodule
+class HtaccessRedirect4ward implements \Symfony\Component\EventDispatcher\EventSubscriberInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public static function getSubscribedEvents()
+	{
+		return array(
+			\Bit3\Contao\Htaccess\HtaccessEvents::GENERATE_REWRITES => 'generateRewrites',
+		);
+	}
+
 	/**
 	 * Generate this sub module code.
 	 *
 	 * @return string
 	 */
-	public function generateSubmodule()
+	public function generateRewrites(\Bit3\Contao\Htaccess\Event\GenerateRewritesEvent $event)
 	{
 		$GLOBALS['TL_CONFIG']['forceAbsoluteDomainLink'] = true;
 
-		$this->import('Database');
+		$database = Database::getInstance();
 
 		$blnNewApache = preg_match('#apache/(\d+(\.\d+)*)#i', $_SERVER['SERVER_SOFTWARE'], $arrMatch) && version_compare($arrMatch[1], '2.4', '>=');
 
 		$strBuffer = '';
 
-		$objRedirect = $this->Database
-			->query('SELECT * FROM tl_redirect4ward WHERE published=\'1\' ORDER BY url, priority');
+		$objRedirect = $database->query('SELECT * FROM tl_redirect4ward WHERE published=\'1\' ORDER BY url, priority');
 		while ($objRedirect->next()) {
 			// get the target url...
 			switch ($objRedirect->jumpToType)
 			{
 				// ...for internal redirects
 				case 'Intern':
-					$objPage = $this->Database
+					$objPage = $database
 						->prepare('SELECT * FROM tl_page WHERE id=?')
 						->execute($objRedirect->jumpTo);
 					if (!$objPage->next()) {
 						continue;
 					}
-					$strTarget = $this->generateFrontendUrl($objPage->row());
+					$strTarget = \Controller::generateFrontendUrl($objPage->row());
 					break;
 
 				// ...for external redirects
@@ -94,6 +103,11 @@ class HtaccessRedirect4ward extends Controller implements HtaccessSubmodule
 			}
 			else {
 				$strQuery = '';
+			}
+
+			// skip empty urls
+			if (!$strUrl) {
+				continue;
 			}
 
 			// discard query string for apache <=2.3
@@ -131,6 +145,7 @@ class HtaccessRedirect4ward extends Controller implements HtaccessSubmodule
 			$strBuffer .= "]\n\n";
 		}
 
-		return $strBuffer;
+		$pre = $event->getPre();
+		$event->setPre($pre . PHP_EOL . $strBuffer);
 	}
 }

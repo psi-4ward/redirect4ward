@@ -250,7 +250,7 @@ class tl_redirect4ward extends Controller
 		if (isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) &&
 			$GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess'] &&
 			in_array('htaccess', $this->Config->getActiveModules())) {
-			$objHtaccess = \Htaccess::getInstance();
+			$objHtaccess = Bit3\Contao\Htaccess\Htaccess::getInstance();
 			$objHtaccess->update();
 		}
 	}

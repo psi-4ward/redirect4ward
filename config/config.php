@@ -27,7 +27,7 @@ if(!isset($GLOBALS['TL_CONFIG']['redirect4ward_use_htaccess']) || !$GLOBALS['TL_
 }
 else
 {
-	$GLOBALS['TL_HTACCESS_SUBMODULES']['rewrite']['redirect4ward'] = 'HtaccessRedirect4ward';
+	$GLOBALS['TL_EVENT_SUBSCRIBERS'][] = 'HtaccessRedirect4ward';
 }
 
 // Support settings4ward
