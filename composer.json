@@ -29,7 +29,7 @@
   },
   "conflict": {
     "contao/core": "3.0.*",
-    "contao-legacy/htaccess": "*",
+    "contao-legacy/htaccess": "<3-dev",
     "bit3/contao-htaccess": "<3-dev"
   },
   "replace": {
