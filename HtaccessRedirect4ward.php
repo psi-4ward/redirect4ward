@@ -82,7 +82,7 @@ class HtaccessRedirect4ward implements \Symfony\Component\EventDispatcher\EventS
 					}
 					$strTarget = \Controller::generateFrontendUrl($objPage->row());
 					
-					if (!preg_match('~^\w+:~', $strTarget) && $strTarget[0] != '/') {
+					if (empty($strTarget) || !preg_match('~^\w+:~', $strTarget) && $strTarget[0] != '/') {
 						$strTarget = '/' . $strTarget;
 					}
 					break;
