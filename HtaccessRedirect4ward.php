@@ -150,6 +150,6 @@ class HtaccessRedirect4ward implements \Symfony\Component\EventDispatcher\EventS
 		}
 
 		$pre = $event->getPre();
-		$event->setPre($pre . PHP_EOL . $strBuffer);
+		$pre->append(PHP_EOL . $strBuffer);
 	}
 }
