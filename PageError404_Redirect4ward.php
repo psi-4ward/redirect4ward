@@ -135,6 +135,11 @@ class PageError404_Redirect4ward extends \PageError404
 					}
 				}
 
+				$targetURL = $this->replaceInsertTags($targetURL);
+				if (!preg_match('~^\w+:~', $targetURL)) {
+					$targetURL = \Environment::get('base') . ltrim($targetURL, '/');
+				}
+
 				// Redirect to external page
 				$type = ($objTarget->type == '301') ? '301' : '303'; // TL knows only "303: see other", no "307: temporary"
                 $this->redirect($targetURL, $type);
