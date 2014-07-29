@@ -148,31 +148,31 @@ class PageError404_Redirect4ward extends \PageError404
 		else if($GLOBALS['TL_CONFIG']['redirect4wardAvoid404'])
 		{
 			// Find the most similar page an redirect instead of showing the 404 page
-			$url = str_replace(array('index.php', '.html'), '', $url);
+			$url = str_replace(array('index.php/', '.html'), '', $url);
 			$erg = array(false, -1);
 
-			$t = \ArticleModel::getTable();
+			$t = \PageModel::getTable();
 			$time = time();
-			$objArticles = \ArticleModel::findAll(array
+			$objPages = \PageModel::findAll(array
 			(
 				'columns' => "($t.start='' OR $t.start<$time) AND ($t.stop='' OR $t.stop>$time) AND $t.published=1"
 			));
 
-			foreach($objArticles as $objArticle)
+			foreach($objPages as $objPage)
 			{
 				// Eingegebene URL wird mit Sitemap-URLs abgeglichen
-				$lev = levenshtein($url, $objArticle->alias);
+				$lev = levenshtein($url, $objPage->alias);
 
 				if($lev <= $erg[1] || $erg[1] < 0)
 				{
-					$erg[0] = $objArticle;
+					$erg[0] = array('id'=>$objPage->id, 'alias'=>$objPage->alias);
 					$erg[1] = $lev;
 				}
 			}
 
 			if($erg[0])
 			{
-				$this->redirect($this->generateFrontendUrl($objArticle->row()), 301);
+				$this->redirect($this->generateFrontendUrl($erg[0]), 301);
 			}
 
 		}
