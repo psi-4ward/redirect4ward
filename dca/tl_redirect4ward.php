@@ -20,6 +20,22 @@ $GLOBALS['TL_DCA']['tl_redirect4ward'] = array
 		'onsubmit_callback'           => array
 		(
 			array('tl_redirect4ward', 'updateHtaccess')
+		),
+		'ondelete_callback'           => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
+		),
+		'oncut_callback'              => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
+		),
+		'oncopy_callback'             => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
+		),
+		'onrestore_callback'          => array
+		(
+			array('tl_redirect4ward', 'updateHtaccess')
 		)
 	),
 
